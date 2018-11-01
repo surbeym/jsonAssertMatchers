@@ -3,6 +3,7 @@ package ca.surbeyonline.jsonMatcher
 import org.junit.After
 import org.junit.Test
 import spock.lang.Specification
+import spock.lang.Unroll
 
 import static ca.surbeyonline.jsonMatcher.JSONObjectMatcher.jsonStringMatchesLooselyTo
 import static ca.surbeyonline.jsonMatcher.JSONObjectMatcher.jsonStringMatchesStrictlyTo
@@ -11,6 +12,7 @@ import static org.junit.Assert.assertThat;
 class JSONObjectMatcherGroovyTest extends Specification {
 
     @Test
+    @Unroll
     void "Json string matches loosely to"(String actual, String expected) {
         expect:
         assertThat(actual, jsonStringMatchesLooselyTo(expected))
@@ -19,6 +21,7 @@ class JSONObjectMatcherGroovyTest extends Specification {
         actual               | expected
         "{}"                 | "{}"
         "{obj: {}}"          | "{}"
+        "{obj: {obj: {}}}"   | "{}"
         "{obj: {}}"          | "{obj: {}}"
         "{obj: {id:1}, " +
                 " obj: {}}"  | "{obj: {}}"
@@ -27,6 +30,7 @@ class JSONObjectMatcherGroovyTest extends Specification {
     }
 
     @Test
+    @Unroll
     void "Json string matches STRICTLY To"() {
         expect:
         assertThat(actual, jsonStringMatchesStrictlyTo(expected))
@@ -39,6 +43,7 @@ class JSONObjectMatcherGroovyTest extends Specification {
     }
 
     @Test
+    @Unroll
     void "json string DOES NOT Matches Strictly To"() {
         when:
         assertThat(actual, jsonStringMatchesStrictlyTo(expected))
