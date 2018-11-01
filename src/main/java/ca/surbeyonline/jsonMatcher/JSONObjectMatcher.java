@@ -4,16 +4,16 @@ import org.hamcrest.Description;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.skyscreamer.jsonassert.JSONCompare;
-import org.skyscreamer.jsonassert.JSONCompareMode;
-import org.skyscreamer.jsonassert.JSONCompareResult;
-import org.skyscreamer.jsonassert.JSONParser;
+import org.skyscreamer.jsonassert.*;
+
+import java.util.List;
 
 public class JSONObjectMatcher extends TypeSafeDiagnosingMatcher<String> {
     private JSONObject expectedResult;
     private JSONCompareMode jsonCompareMode;
+    private JSONCompareResult jsonCompareResult;
 
-    public JSONObjectMatcher(JSONObject expectedResult, JSONCompareMode jSONCompareMode) {
+    private JSONObjectMatcher(JSONObject expectedResult, JSONCompareMode jSONCompareMode) {
         this.expectedResult = expectedResult;
         this.jsonCompareMode = jSONCompareMode;
     }
@@ -21,10 +21,15 @@ public class JSONObjectMatcher extends TypeSafeDiagnosingMatcher<String> {
     @Override
     protected boolean matchesSafely(String actual, Description description) {
 
-        description.appendText("Compared ").appendValue(actual).appendText(", which did not match the expected value: \n                    " + expectedResult);
         try {
             JSONObject actualJsonArray = (JSONObject) JSONParser.parseJSON(actual);
             JSONCompareResult jsonCompareResult = JSONCompare.compareJSON(expectedResult, actualJsonArray, jsonCompareMode);
+            if (jsonCompareResult.failed()) {
+                this.jsonCompareResult = jsonCompareResult;
+                description.appendText("Actual   Value ").appendValue(actualJsonArray)
+                           .appendText(", which did not match \n").appendText("          Expected Value ")
+                           .appendValue(expectedResult);
+            }
             return jsonCompareResult.passed();
         } catch (JSONException e) {
             description.appendText(e.getMessage());
@@ -34,7 +39,18 @@ public class JSONObjectMatcher extends TypeSafeDiagnosingMatcher<String> {
 
     @Override
     public void describeTo(Description description) {
-        description.appendText("Expected the json Object to be the same, using JSON Compare Mode: " + jsonCompareMode);
+        if (jsonCompareResult.isMissingOnField()) {
+            List<FieldComparisonFailure> missingFields = jsonCompareResult.getFieldMissing();
+            for (FieldComparisonFailure missingField : missingFields) {
+                if (missingField != missingFields.get(0)) {
+                    description.appendText("          ");
+                }
+                description.appendText(missingField.getExpected() + " in the structure of " + missingField.getField());
+                if (missingField != missingFields.get(missingFields.size() - 1)) {
+                    description.appendText("\n");
+                }
+            }
+        }
     }
 
     public static JSONObjectMatcher jsonStringMatchesLooselyTo(String expectedJson) throws JSONException {

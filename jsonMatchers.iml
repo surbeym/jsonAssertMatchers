@@ -54,5 +54,6 @@
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.testng:testng:6.13.1" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: com.beust:jcommander:1.72" level="project" />
     <orderEntry type="library" name="Maven: org.codehaus.groovy:groovy-xml:2.5.3" level="project" />
+    <orderEntry type="library" name="Maven: org.spockframework:spock-core:1.2-groovy-2.5" level="project" />
   </component>
 </module>
