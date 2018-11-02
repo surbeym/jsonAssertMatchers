@@ -1,4 +1,4 @@
-package ca.surbeyonline.jsonMatcher;
+package ca.surbeyonline.jsonMatcher.array;
 
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
@@ -12,28 +12,25 @@ import org.skyscreamer.jsonassert.JSONParser;
 import javax.ws.rs.core.Response;
 
 
-public class JSONResponseArrayMatcher extends TypeSafeDiagnosingMatcher<Response> {
-    private JSONArray expectedResult;
-    private JSONCompareMode jsonCompareMode;
+public class JSONResponseArrayMatcher extends JSONArrayMatcher<Response> {
 
-    private JSONResponseArrayMatcher(JSONArray expectedResult, JSONCompareMode jSONCompareMode) {
-        this.expectedResult = expectedResult;
-        this.jsonCompareMode = jSONCompareMode;
+
+    public JSONResponseArrayMatcher(JSONArray expectedResult, JSONCompareMode jsonCompareMode) {
+        super(expectedResult, jsonCompareMode);
     }
 
     @Override
     protected boolean matchesSafely(Response response, Description description) {
 
-        description.appendText("Compared ").appendValue(response.getEntity().toString()).appendText(", which did not match the expected value: \n                    " + expectedResult);
         try {
             JSONArray actualJsonArray = (JSONArray) JSONParser.parseJSON(response.getEntity().toString());
-            JSONCompareResult jsonCompareResult = JSONCompare.compareJSON(expectedResult, actualJsonArray, jsonCompareMode);
-            return jsonCompareResult.passed();
+            super.matchesSafely(actualJsonArray, description);
         } catch (JSONException e) {
             description.appendText(e.getMessage());
         }
         return false;
     }
+
 
     @Override
     public void describeTo(Description description) {
