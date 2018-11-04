@@ -19,14 +19,14 @@ class JSONStringObjectMatcherGroovyTest extends Specification {
         assertThat(actual, jsonStringMatchesLooselyTo(expected))
 
         where:
-       actual                       | expected
-       "{}"                         | "{}"
-       "{obj: {}}"                  | "{}"
-       "{obj: {obj: {}}}"           | "{}"
-       "{obj: {}}"                  | "{obj: {}}"
-       "{obj: {id:1}, obj: {}}"     | "{obj: {}}"
-       "{obj: {id:1}, obj: {id:1}}" | "{obj: {}}"
-       "{obj: {id:1}, obj2: {}}"    | "{obj: {id:1}}"
+        actual                       | expected
+        "{}"                         | "{}"
+        "{obj: {}}"                  | "{}"
+        "{obj: {obj: {}}}"           | "{}"
+        "{obj: {}}"                  | "{obj: {}}"
+        "{obj: {id:1}, obj: {}}"     | "{obj: {}}"
+        "{obj: {id:1}, obj: {id:1}}" | "{obj: {}}"
+        "{obj: {id:1}, obj2: {}}"    | "{obj: {id:1}}"
     }
 
     @Test

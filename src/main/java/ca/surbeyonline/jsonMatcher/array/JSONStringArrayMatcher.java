@@ -18,19 +18,14 @@ public class JSONStringArrayMatcher extends JSONArrayMatcher<String> {
 
     @Override
     protected boolean matchesSafely(String actual, Description description) {
-        description.appendText("Compared ").appendValue(actual).appendText(", which did not match the expected value: \n                    " + getExpectedResult());
         try {
             JSONArray actualJsonArray = (JSONArray) JSONParser.parseJSON(actual);
             return super.matchesSafely(actualJsonArray,description);
         } catch (JSONException e) {
             description.appendText(e.getMessage());
+            jsonException = e;
         }
         return false;
-    }
-
-    @Override
-    public void describeTo(Description description) {
-        description.appendText("Expected the json Array to be the same, using JSON Compare Mode: " + jsonCompareMode);
     }
 
     public static JSONStringArrayMatcher looselyMatchesArray(String expectedJson) throws JSONException {

@@ -22,7 +22,6 @@ public abstract class JSONMatcher<T> extends TypeSafeDiagnosingMatcher<T> {
 
     public abstract <T> T getExpectedResult();
 
-
     @Override
     public void describeTo(Description description) {
         if (jsonCompareResult != null) {
@@ -31,6 +30,8 @@ public abstract class JSONMatcher<T> extends TypeSafeDiagnosingMatcher<T> {
             }
             if (jsonCompareResult.isUnexpectedOnField()) {
                 unexpectedFields.accept(jsonCompareResult, description);
+            } if (!jsonCompareResult.isMissingOnField() && !jsonCompareResult.isUnexpectedOnField()) {
+                description.appendText(jsonCompareResult.getMessage());
             }
         } else {
             description.appendText(jsonException.getMessage().substring(9));

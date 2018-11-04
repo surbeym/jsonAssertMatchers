@@ -18,7 +18,6 @@ public abstract class JSONObjectMatcher<T> extends JSONMatcher<T> {
 
     protected boolean matchesSafely(JSONObject actualJsonArray, Description description) {
 
-//        description.appendText("Actual   Value ").appendValue(actualJsonArray);
         try {
             JSONCompareResult jsonCompareResult = JSONCompare.compareJSON(getExpectedResult(), actualJsonArray, jsonCompareMode);
             if (jsonCompareResult.failed()) {

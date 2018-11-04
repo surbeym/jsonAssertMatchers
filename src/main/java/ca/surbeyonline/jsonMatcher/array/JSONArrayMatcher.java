@@ -27,6 +27,10 @@ public abstract class JSONArrayMatcher<T> extends JSONMatcher<T> {
             JSONCompareResult jsonCompareResult = JSONCompare.compareJSON(expectedResult, actualJsonArray, jsonCompareMode);
             if (jsonCompareResult.failed()) {
                 this.jsonCompareResult = jsonCompareResult;
+//                if (jsonCompareMode.isExtensible() && !jsonCompareResult.isUnexpectedOnField() && !jsonCompareResult.isMissingOnField() && !jsonCompareResult.isFailureOnField()) {
+//                    return true;
+//                }
+                this.jsonCompareResult = jsonCompareResult;
                 description.appendText("Actual   Value ").appendValue(actualJsonArray)
                         .appendText(", which did not match \n")
                         .appendText("          Expected Value ")
@@ -37,9 +41,5 @@ public abstract class JSONArrayMatcher<T> extends JSONMatcher<T> {
             jsonException = e;
         }
         return false;
-    }
-
-    public <T> T getExpectedArray() {
-        return (T) expectedResult;
     }
 }
