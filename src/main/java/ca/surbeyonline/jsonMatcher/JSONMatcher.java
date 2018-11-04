@@ -34,7 +34,11 @@ public abstract class JSONMatcher<T> extends TypeSafeDiagnosingMatcher<T> {
                 description.appendText(jsonCompareResult.getMessage());
             }
         } else {
-            description.appendText(jsonException.getMessage().substring(9));
+            String message = jsonException.getMessage();
+            if (message.startsWith("Expected")) {
+                message = message.substring(9);
+            }
+              description.appendText(message);
         }
     }
 

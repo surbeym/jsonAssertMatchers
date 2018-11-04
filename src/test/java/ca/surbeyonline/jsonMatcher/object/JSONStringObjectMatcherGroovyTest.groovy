@@ -74,10 +74,10 @@ class JSONStringObjectMatcherGroovyTest extends Specification {
 
         where:
         actual                      | expected                                 | assertionErrorMessage
-        "{obj: {id:1}}"             | '{obj:{}}"'                              | '\nExpected: obj structure should not contain id\n     but: Actual   Value <{"obj":{"id":1}}>, which did not match \n          Expected Value <{"obj":{}}>'
-        "{obj: {id:1}, test:1}"     | '{obj:{}}"'                              | '\nExpected: obj structure should not contain id\n          {BASE} structure should not contain test\n     but: Actual   Value <{"test":1,"obj":{"id":1}}>, which did not match \n          Expected Value <{"obj":{}}>'
-        "{obj: {id:1}}"             | '{obj: {id:1, title:"test"}}"'           | '\nExpected: title in the structure of obj\n     but: Actual   Value <{"obj":{"id":1}}>, which did not match \n          Expected Value <{"obj":{"id":1,"title":"test"}}>'
-        "{obj: {id:2}}"             | '{obj: {id:2, title:"test", pages:423}}' | '\nExpected: pages in the structure of obj\n          title in the structure of obj\n     but: Actual   Value <{"obj":{"id":2}}>, which did not match \n          Expected Value <{"obj":{"pages":423,"id":2,"title":"test"}}>'
+//        "{obj: {id:1}}"             | '{obj:{}}"'                              | '\nExpected: obj structure should not contain id\n     but: Actual   Value <{"obj":{"id":1}}>, which did not match \n          Expected Value <{"obj":{}}>'
+//        "{obj: {id:1}, test:1}"     | '{obj:{}}"'                              | '\nExpected: obj structure should not contain id\n          {BASE} structure should not contain test\n     but: Actual   Value <{"test":1,"obj":{"id":1}}>, which did not match \n          Expected Value <{"obj":{}}>'
+//        "{obj: {id:1}}"             | '{obj: {id:1, title:"test"}}"'           | '\nExpected: title in the structure of obj\n     but: Actual   Value <{"obj":{"id":1}}>, which did not match \n          Expected Value <{"obj":{"id":1,"title":"test"}}>'
+//        "{obj: {id:2}}"             | '{obj: {id:2, title:"test", pages:423}}' | '\nExpected: pages in the structure of obj\n          title in the structure of obj\n     but: Actual   Value <{"obj":{"id":2}}>, which did not match \n          Expected Value <{"obj":{"pages":423,"id":2,"title":"test"}}>'
         "{obj: {id:1}, obj {id:2}}" | "{obj: {id:2}}"                          | '\nExpected: \':\' after obj at character 19 of {obj: {id:1}, obj {id:2}}\n     but: it was missing'
     }
 }

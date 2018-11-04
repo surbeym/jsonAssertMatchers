@@ -18,7 +18,7 @@ class JSONStringArrayMatcherGroovyTest extends Specification {
         where:
         actual                      | expected
         "[]"                        | "[]"
-        "[{key:1},{key:2},{key:3}]" | "[{key:1},{key:2}]"
+        "[{key:1},{key:2,keys:3}]"  | "[{key:1},{key:2}]"
         "[{key:1},{key:2},{key:3}]" | "[{key:1},{key:2},{key:3}]"
         "[{key:1},{key:2,door:3}]"  | "[{key:1},{key:2}]"
     }
@@ -55,7 +55,7 @@ class JSONStringArrayMatcherGroovyTest extends Specification {
         where:
         actual                        | expected                    | exceptionType  | expectedMessage
         "[{obj: {id:1}}, {obja: {}}]" | '[{obj: {id:1}}, {quit:3}]' | AssertionError | '\nExpected: [1] Could not find match for element {"quit":3}\n     but: Actual   Value <[{"obj":{"id":1}},{"obja":{}}]>, which did not match \n          Expected Value <[{"obj":{"id":1}},{"quit":3}]>'
-//        "[{key:1},{key:2}]"           | "[{key:1},{key:2,door:3}]" | AssertionError     | ""
-//        "[obj: {}]"                   | "[]"                       | AssertionError     | ""
+        "[{key:1},{key:2}]"           | "[{key:1},{key:2,door:3}]"  | AssertionError | '\nExpected: door in the structure of [key=2]\n     but: Actual   Value <[{"key":1},{"key":2}]>, which did not match \n          Expected Value <[{"key":1},{"door":3,"key":2}]>'
+        "[obj: {}]"                   | "[]"                        | AssertionError | '\nExpected: Unterminated array at character 5 of [obj: {}]\n     but: Unterminated array at character 5 of [obj: {}]'
     }
 }
